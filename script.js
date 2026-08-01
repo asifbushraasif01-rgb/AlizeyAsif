@@ -1,73 +1,93 @@
-//!!! یہاں اپنا Apps Script کا /exec والا link لگائیں!!!
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxugGGE6MPk7k8gdg5naQkGohTAuySh2eZgZCwMW7d9bpQbxIZyONQxyBY_CJ-De2m0/exec";
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const photo = document.getElementById("photo");
+const status = document.getElementById("status");
 
-const video = document.getElementById('video');
-const canvas = document.getElementById('canvas');
-const btn = document.getElementById('btn');
-const progress = document.getElementById('progress');
-const errorBox = document.getElementById('error');
+const startBtn = document.getElementById("startBtn");
+const captureBtn = document.getElementById("captureBtn");
+const retakeBtn = document.getElementById("retakeBtn");
+const downloadBtn = document.getElementById("downloadBtn");
 
-let cameraStream = null;
+let stream = null;
 
-// Page load ہوتے ہی camera کی permission لے لیں تاکہ click پر delay نہ ہو
-window.onload = async () => {
-  try {
-    updateProgress("کیمرہ تیار ہو رہا ہے... 0%");
-    cameraStream = await navigator.mediaDevices.getUserMedia({ 
-      video: { facingMode: "environment" } 
-    });
-    video.srcObject = cameraStream;
-    updateProgress("تیار ہے۔ بٹن دبائیں 100%");
-  } catch (err) {
-    showError("کیمرہ Error: " + err.name + "\n" + err.message);
-  }
-};
+// Start Camera
+startBtn.addEventListener("click", async () => {
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: "user"
+            },
+            audio: false
+        });
 
-function updateProgress(msg) {
-  progress.innerText = msg;
-  errorBox.innerText = "";
-}
+        video.srcObject = stream;
 
-function showError(msg) {
-  errorBox.innerText = "❌ " + msg;
-  progress.innerText = "";
-  btn.disabled = false;
-}
+        status.innerHTML = "📷 Camera Ready";
 
-async function startProcess() {
-  btn.disabled = true;
-  errorBox.innerText = "";
+        captureBtn.disabled = false;
+        startBtn.disabled = true;
 
-  try {
-    // 1. تصویر کھینچنا 25%
-    updateProgress("تصویر کھینچی جا رہی ہے... 25%");
+    } catch (err) {
+        alert("Camera permission denied.");
+    }
+});
+
+// Capture
+captureBtn.addEventListener("click", () => {
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    canvas.getContext('2d').drawImage(video, 0, 0);
-    const imageData = canvas.toDataURL('image/jpeg', 0.7);
 
-    // 2. بھیجنا 50%
-    updateProgress("سرور پر بھیجا جا رہا ہے... 50%");
-    
-    const response = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ image: imageData }),
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const ctx = canvas.getContext("2d");
 
-    if (!response.ok) throw new Error("Server Error: " + response.status);
+    ctx.drawImage(video, 0, 0);
 
-    // 3. جواب 75%
-    updateProgress("جواب کا انتظار ہے... 75%");
-    const result = await response.json();
+    const img = canvas.toDataURL("image/png");
 
-    // 4. مکمل 100%
-    updateProgress("✅ " + result.message + " 100%");
-    btn.innerText = "دوبارہ بھیجیں";
+    photo.src = img;
+    photo.style.display = "block";
 
-  } catch (error) {
-    showError("بھیجنے میں مسئلہ: " + error.message);
-  } finally {
-    btn.disabled = false;
-  }
-}
+    video.style.display = "none";
+
+    captureBtn.disabled = true;
+    retakeBtn.disabled = false;
+    downloadBtn.disabled = false;
+
+    status.innerHTML = "✅ Photo Captured";
+
+});
+
+// Retake
+retakeBtn.addEventListener("click", () => {
+
+    photo.style.display = "none";
+    video.style.display = "block";
+
+    captureBtn.disabled = false;
+    retakeBtn.disabled = true;
+    downloadBtn.disabled = true;
+
+    status.innerHTML = "📷 Camera Ready";
+
+});
+
+// Download
+downloadBtn.addEventListener("click", () => {
+
+    const a = document.createElement("a");
+
+    a.href = photo.src;
+    a.download = "photo.png";
+
+    a.click();
+
+});
+
+// Stop camera when page closes
+window.addEventListener("beforeunload", () => {
+
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+    }
+
+});
