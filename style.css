@@ -1,59 +1,80 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  direction: rtl;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-.box {
-  background: white;
-  padding: 30px 20px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  text-align: center;
-  width: 90%;
-  max-width: 350px;
+body{
+    background:#121212;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 20px;
+.container{
+    width:100%;
+    max-width:420px;
+    background:#1e1e1e;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,.4);
 }
 
-#btn {
-  background: #ff4757;
-  color: white;
-  border: none;
-  padding: 18px;
-  font-size: 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: bold;
-  transition: 0.2s;
+h1{
+    margin-bottom:15px;
 }
 
-#btn:disabled {
-  background: #aaa;
-  cursor: not-allowed;
+.status{
+    margin-bottom:15px;
+    color:#00e676;
+    font-weight:bold;
 }
 
-#progress {
-  margin-top: 15px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #2f3542;
+video{
+    width:100%;
+    border-radius:12px;
+    background:#000;
 }
 
-#error {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #ff4757;
-  font-weight: bold;
-  white-space: pre-wrap;
+canvas{
+    display:none;
+}
+
+#photo{
+    display:none;
+    width:100%;
+    border-radius:12px;
+    margin-top:15px;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+button{
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#2196F3;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button:disabled{
+    background:#666;
+    cursor:not-allowed;
 }
