@@ -1,5 +1,5 @@
 //!!! یہاں اپنا Apps Script کا /exec والا link لگائیں!!!
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUeFmcHL_BO6gdnojFUFRDyCrPv4-SbT8a0E_Js6CI9blcvTFhWFR7afMofEPRQzRv/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxugGGE6MPk7k8gdg5naQkGohTAuySh2eZgZCwMW7d9bpQbxIZyONQxyBY_CJ-De2m0/exec";
 
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
